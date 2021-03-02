@@ -23,7 +23,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import *
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 %matplotlib inline
 
@@ -31,194 +31,13 @@ df = pd.read_excel('movie_data_detailed_with_ols.xlsx')
 df.head()
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Unnamed: 0</th>
-      <th>budget</th>
-      <th>domgross</th>
-      <th>title</th>
-      <th>Response_Json</th>
-      <th>Year</th>
-      <th>imdbRating</th>
-      <th>Metascore</th>
-      <th>imdbVotes</th>
-      <th>Model</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>13000000</td>
-      <td>25682380</td>
-      <td>21 &amp;amp; Over</td>
-      <td>0</td>
-      <td>2008</td>
-      <td>6.8</td>
-      <td>48</td>
-      <td>206513</td>
-      <td>4.912759e+07</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>45658735</td>
-      <td>13414714</td>
-      <td>Dredd 3D</td>
-      <td>0</td>
-      <td>2012</td>
-      <td>0.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2.267265e+05</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>20000000</td>
-      <td>53107035</td>
-      <td>12 Years a Slave</td>
-      <td>0</td>
-      <td>2013</td>
-      <td>8.1</td>
-      <td>96</td>
-      <td>537525</td>
-      <td>1.626624e+08</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>61000000</td>
-      <td>75612460</td>
-      <td>2 Guns</td>
-      <td>0</td>
-      <td>2013</td>
-      <td>6.7</td>
-      <td>55</td>
-      <td>173726</td>
-      <td>7.723381e+07</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>40000000</td>
-      <td>95020213</td>
-      <td>42</td>
-      <td>0</td>
-      <td>2013</td>
-      <td>7.5</td>
-      <td>62</td>
-      <td>74170</td>
-      <td>4.151958e+07</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
 Subset the `df` DataFrame to only keep the `'domgross'`, `'budget'`, `'imdbRating'`, `'Metascore'`, and `'imdbVotes'` columns. 
 
 
 ```python
 # Subset the DataFrame
-df = df[['domgross', 'budget', 'imdbRating', 'Metascore', 'imdbVotes']]
-df.head()
+df = None
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>domgross</th>
-      <th>budget</th>
-      <th>imdbRating</th>
-      <th>Metascore</th>
-      <th>imdbVotes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>25682380</td>
-      <td>13000000</td>
-      <td>6.8</td>
-      <td>48</td>
-      <td>206513</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>13414714</td>
-      <td>45658735</td>
-      <td>0.0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>53107035</td>
-      <td>20000000</td>
-      <td>8.1</td>
-      <td>96</td>
-      <td>537525</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>75612460</td>
-      <td>61000000</td>
-      <td>6.7</td>
-      <td>55</td>
-      <td>173726</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>95020213</td>
-      <td>40000000</td>
-      <td>7.5</td>
-      <td>62</td>
-      <td>74170</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 ## Split the data
 
@@ -229,10 +48,10 @@ df.head()
 
 ```python
 # domgross is the outcome variable
-X = df[['budget', 'imdbRating', 'Metascore', 'imdbVotes']]
-y = df['domgross']
+X = None
+y = None
 
-X_train , X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+X_train , X_test, y_train, y_test = None
 ```
 
 Use the `MinMaxScaler` to scale the training set. Remember you can fit and transform in a single method using `.fit_transform()`.  
@@ -240,8 +59,8 @@ Use the `MinMaxScaler` to scale the training set. Remember you can fit and trans
 
 ```python
 # Transform with MinMaxScaler
-scaler = MinMaxScaler()
-X_train_scaled = scaler.fit_transform(X_train)
+scaler = None
+X_train_scaled = None
 ```
 
 Transform the test data (`X_test`) using the same `scaler`:  
@@ -249,7 +68,7 @@ Transform the test data (`X_test`) using the same `scaler`:
 
 ```python
 # Scale the test set
-X_test_scaled = scaler.transform(X_test)
+X_test_scaled = None
 ```
 
 ## Fit a regression model to the training data
@@ -257,26 +76,18 @@ X_test_scaled = scaler.transform(X_test)
 
 ```python
 # Your code 
-linreg = LinearRegression()
-linreg.fit(X_train_scaled, y_train)
+linreg = None
 ```
-
-
-
-
-    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
-
-
 
 Use the model to make predictions on both the training and test sets: 
 
 
 ```python
 # Training set predictions
-lm_train_predictions = linreg.predict(X_train_scaled)
+lm_train_predictions = None
 
 # Test set predictions 
-lm_test_predictions = linreg.predict(X_test_scaled)
+lm_test_predictions = None
 ```
 
 Plot predictions for the training set against the actual data: 
@@ -291,10 +102,6 @@ plt.title('Model vs data for training set')
 plt.legend();
 ```
 
-
-![png](index_files/index_21_0.png)
-
-
 Plot predictions for the test set against the actual data: 
 
 
@@ -307,10 +114,6 @@ plt.title('Model vs data for test set')
 plt.legend();
 ```
 
-
-![png](index_files/index_23_0.png)
-
-
 ## Bias
 
 Create a function `bias()` to calculate the bias of a model's predictions given the actual data: $Bias(\hat{f}(x)) = E[\hat{f}(x)-f(x)]$   
@@ -320,7 +123,7 @@ Create a function `bias()` to calculate the bias of a model's predictions given 
 ```python
 import numpy as np
 def bias(y, y_hat):
-    return np.mean(y_hat - y)
+    pass
 ```
 
 ## Variance
@@ -329,7 +132,7 @@ Create a function `variance()` to calculate the variance of a model's prediction
 
 ```python
 def variance(y_hat):
-    return np.mean([yi**2 for yi in y_hat]) - np.mean(y_hat)**2
+    pass
 ```
 
 ## Calculate bias and variance
@@ -337,26 +140,24 @@ def variance(y_hat):
 
 ```python
 # Bias and variance for training set 
-b = bias(y_train, lm_train_predictions) 
-v = variance(lm_train_predictions) 
+b = None
+v = None
 print('Train bias: {} \nTrain variance: {}'.format(b, v))
+
+# Train bias: -8.127906105735085e-09 
+# Train variance: 3406811040986517.0
 ```
-
-    Train bias: -8.127906105735085e-09 
-    Train variance: 3406811040986517.0
-
 
 
 ```python
 # Bias and variance for test set 
-b = bias(y_test, lm_test_predictions) 
-v = variance(lm_test_predictions) 
+b = None
+v = None
 print('Test bias: {} \nTest variance: {}'.format(b, v))
+
+# Test bias: -10982393.918069275 
+# Test variance: 1518678846127932.0
 ```
-
-    Test bias: -10982393.918069275 
-    Test variance: 1518678846127932.0
-
 
 ## Overfit a new model 
 
@@ -371,49 +172,36 @@ What you're essentially doing is taking interactions and creating polynomials at
 
 
 ```python
-poly = PolynomialFeatures(3)
+# Your code here
+poly = None
 
-X_train_poly = poly.fit_transform(X_train_scaled)
-X_test_poly = poly.fit_transform(X_test_scaled)
+X_train_poly = None
+X_test_poly = None
 ```
 
 
 ```python
 # Check the shape
-np.shape(X_train_poly)
 ```
-
-
-
-
-    (22, 35)
-
-
 
 Fit a regression model to the training data: 
 
 
 ```python
+# Your code here
 polyreg = LinearRegression()
-polyreg.fit(X_train_poly, y_train)
+
 ```
-
-
-
-
-    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
-
-
 
 Use the model to make predictions on both the training and test sets: 
 
 
 ```python
 # Training set predictions
-poly_train_predictions = polyreg.predict(X_train_poly)
+poly_train_predictions = None
 
 # Test set predictions 
-poly_test_predictions = polyreg.predict(X_test_poly)
+poly_test_predictions = None
 ```
 
 Plot predictions for the training set against the actual data: 
@@ -428,10 +216,6 @@ plt.title('Model vs data for training set')
 plt.legend();
 ```
 
-
-![png](index_files/index_40_0.png)
-
-
 Plot predictions for the test set against the actual data: 
 
 
@@ -444,44 +228,37 @@ plt.title('Model vs data for test set')
 plt.legend();
 ```
 
-
-![png](index_files/index_42_0.png)
-
-
 Calculate the bias and variance for the training set: 
 
 
 ```python
 # Bias and variance for training set 
-b = bias(y_train, poly_train_predictions)
-v = variance(poly_train_predictions)
+b = None 
+v = None 
 print('Train bias: {} \nTrain variance: {}'.format(b, v))
+
+# Train bias: 3.5898251966996625e-07 
+# Train variance: 7394168636697528.0
 ```
-
-    Train bias: 3.5898251966996625e-07 
-    Train variance: 7394168636697528.0
-
 
 Calculate the bias and variance for the test set: 
 
 
 ```python
 # Bias and variance for test set 
-b = bias(y_test, poly_test_predictions) 
-v = variance(poly_test_predictions) 
+b = None 
+v = None 
 print('Test bias: {} \nTest variance: {}'.format(b, v))
+
+# Test bias: -68166032.47666144 
+# Test variance: 4.798244829435879e+16
 ```
-
-    Test bias: -68166032.47666144 
-    Test variance: 4.798244829435879e+16
-
 
 ## Interpret the overfit model
 
 
 ```python
-# The training predictions from the second model perfectly match the actual data points - which indicates overfitting.  
-# The bias and variance for the test set both increased drastically for this overfit model.
+# Your description here
 ```
 
 ## Level Up (Optional)
